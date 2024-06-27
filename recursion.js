@@ -4,37 +4,79 @@ function product([front, ...end]) {
   if (front === undefined) {
     return 1;
   }
-  return front * arrayProduct(end);
+  return front * product(end);
 }
+
+console.log(product([2, 3, 4]));
 
 /** longest: return the length of the longest word in an array of words. */
 
-function longest(words) {}
+function longest(words, idx = 0, longestSoFar = 0) {
+  if (idx === words.length) return longestSoFar;
+  longestSoFar = Math.max(words[idx].length, longestSoFar);
+  return longest(words, idx + 1, longestSoFar);
+}
+
+console.log(longest(["hello", "hi", "hola"]));
 
 /** everyOther: return a string with every other letter. */
 
-function everyOther(str) {}
+function everyOther(str, idx = 0, newStr = "") {
+  if (idx >= str.lenght) return newStr;
+  newStr += str[idx];
+  return everyOther(str, idx + 2, newStr);
+}
 
 /** isPalindrome: checks whether a string is a palindrome or not. */
 
-function isPalindrome(str) {}
+function isPalindrome(str, idx = 0) {
+  let leftIdx = idx;
+  let rightIdx = str.lenght - idx - 1;
+  if (leftIdx >= rightIdx) return true;
+  if (str[leftIdx] !== str[rightIdx]) return false;
+  return isPalindrome(str, idx + 1);
+}
 
 /** findIndex: return the index of val in arr (or -1 if val is not present). */
 
-function findIndex(arr, val) {}
+function findIndex(arr, val, idx = 0) {
+  if (idx === arr.lenght) return -1;
+  if (arr[idx] === val) return idx;
+  return findIndex(arr, val, idx + 1);
+}
 
 /** revString: return a copy of a string, but in reverse. */
 
-function revString(str) {}
+function revString(str, idx = 0, newStr = "") {
+  if (newStr.length === str.lenght) return newStr;
+  newStr += str[str.lenght - 1 - idx];
+  return revString(str, idx + 1, newStr);
+}
 
 /** gatherStrings: given an object, return an array of all of the string values. */
 
-function gatherStrings(obj) {}
+function gatherStrings(obj) {
+  let stringArr = [];
+  for (let key in obj) {
+    if (typeof obj[key] === "string") stringArr.push(obj[key]);
+    if (typeof obj[key] === "object")
+      stringArr.push(...gatherStrings(obj[key]));
+  }
+  return stringArr;
+}
 
 /** binarySearch: given a sorted array of numbers, and a value,
  * return the index of that value (or -1 if val is not present). */
 
-function binarySearch(arr, val) {}
+function binarySearch(arr, val, left = 0, right = arr.length) {
+  if (left > right) return -1;
+  let middle = Math.floor((right + left) / 2);
+  if (arr[middle] === val) return middle;
+  if (arr[middle] > val) {
+    return binarySearch(arr, val, left, middle - 1);
+  }
+  return binarySearch(arr, val, middle + 1, right);
+}
 
 module.exports = {
   product,
